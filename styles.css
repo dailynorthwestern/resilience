@@ -43,13 +43,14 @@ a { color: inherit; }
 .button-dark:hover { background: white; }
 
 .section-pad { padding: clamp(4.5rem, 9vw, 8rem) clamp(1.5rem, 8vw, 8rem); }
-.timeline-section { background: var(--paper); }
+.timeline-section { padding-inline: clamp(1rem, 4vw, 4rem); background: var(--paper); }
 .section-heading { max-width: 53rem; margin: 0 auto 3rem; text-align: center; }
 .eyebrow-dark { color: #77577d; }
 .section-heading h2, .stories-heading h2 { margin: 0; font: 600 clamp(2.5rem, 5vw, 5rem)/1.02 var(--display); letter-spacing: -.025em; text-transform: uppercase; }
 .section-intro { max-width: 34rem; margin: 1.1rem auto 0; color: #605761; font-size: 1.05rem; line-height: 1.6; }
-.timeline-frame { width: min(100%, 76rem); min-height: 32rem; margin: auto; border: 1px solid #d6cbd5; background: #ebe4eb; }
-.timeline-frame iframe { display: block; width: 100%; height: 32rem; border: 0; }
+.timeline-frame { width: min(100%, 110rem); min-height: clamp(38rem, 78svh, 60rem); margin: auto; border: 1px solid #d6cbd5; background: #ebe4eb; }
+.timeline-frame .flourish-embed, .timeline-frame iframe { display: block; width: 100%; min-height: inherit; border: 0; }
+.timeline-credit { display: block; width: min(100%, 110rem); margin: .7rem auto 0; color: #605761; font-size: .75rem; text-align: right; }
 
 .stories { position: relative; overflow: hidden; isolation: isolate; background: var(--purple-deep); color: white; }
 .stories-backdrop, .stories-video, .stories-shade { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; }
@@ -100,8 +101,9 @@ a { color: inherit; }
   .section-pad { padding: 4.5rem 1.35rem; }
   .section-heading { margin-bottom: 2rem; text-align: left; }
   .section-intro { margin-left: 0; }
-  .timeline-frame { min-height: 25rem; }
-  .timeline-frame iframe { height: 25rem; }
+  .timeline-frame { min-height: 34rem; }
+  .timeline-frame .flourish-embed, .timeline-frame iframe { min-height: inherit; }
+  .timeline-credit { text-align: left; }
   .category-nav { gap: .45rem; margin-bottom: 2rem; }
   .category-nav a { gap: .6rem; padding: .6rem .7rem; font-size: .75rem; }
   .category-heading { align-items: start; flex-direction: column; gap: .5rem; }
