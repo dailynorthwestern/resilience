@@ -121,11 +121,14 @@ a {
   text-wrap: balance;
 }
 .hero-deck {
-  max-width: 43rem;
+  white-space: pre-line;
+  width: 60vw;
+  max-width: 100%;
   margin: 1rem auto 1.8rem;
   color: rgb(255 255 255 / 0.9);
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   line-height: 1.65;
+  text-align: center;
 }
 .button {
   display: inline-flex;
@@ -243,6 +246,7 @@ a {
   background: var(--paper);
   color: var(--purple);
   text-align: center;
+  white-space: pre-line;
 }
 .quote-section.section-pad {
   padding-top: clamp(6rem, 12vw, 11rem);
@@ -267,7 +271,8 @@ a {
   );
 }
 .quote-section blockquote {
-  max-width: 20ch;
+  width: 80vw;
+  max-width: 100%;
   margin: 0 auto;
   font: 400 clamp(2.5rem, 6vw, 6rem) / 1.08 var(--display);
   text-wrap: balance;
@@ -316,7 +321,7 @@ a {
 }
 .story-card h3 {
   margin: 0 0 0.5rem;
-  font: 400 clamp(1rem, 1.2vw, 1.25rem) / 1.3 var(--display);
+  font: 700 clamp(1rem, 1.2vw, 1.25rem) / 1.3 var(--mono);
 }
 /* Reserve metadata space so hover never shifts the photographs. */
 .story-meta {

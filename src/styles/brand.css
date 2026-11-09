@@ -36,7 +36,7 @@
   background: #5b1d54;
   color: #fff;
   border-radius: 999px;
-  font: 700 .9rem/1 var(--mono);
+  font: 700 .9rem/1 Georgia, "Times New Roman", serif;
   text-decoration: none;
 }
 .site-header .header-action:hover { background: #400957; }

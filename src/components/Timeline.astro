@@ -5,9 +5,11 @@ import '../styles/timeline.css';
 
 // Switch to true to restore the original, unmodified Flourish visualization.
 const useFlourish = false;
-const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
-  month: 'short', day: '2-digit', timeZone: 'UTC'
-}).format(new Date(`${date}T00:00:00Z`)).replace(',', '');
+const monthLabels = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
+const formatDate = (date) => {
+  const [, month, day] = date.split('-');
+  return `${monthLabels[Number(month) - 1]} ${Number(day)}`;
+};
 ---
 
 {useFlourish ? <FlourishTimeline /> : (
