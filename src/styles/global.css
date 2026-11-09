@@ -74,11 +74,12 @@ a {
 
 .hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   overflow: hidden;
   padding-top: 2rem;
+  padding-bottom: 2rem;
   background: var(--purple);
   color: white;
 }
@@ -92,8 +93,9 @@ a {
 }
 .hero-copy {
   width: 100%;
-  padding: 2.5rem 1.5rem clamp(3.5rem, 7vw, 6rem);
-  text-align: center;
+  min-width: 0;
+  padding: 2rem clamp(1.5rem, 4vw, 4rem);
+  text-align: left;
 }
 .visually-hidden {
   position: absolute;
@@ -122,13 +124,13 @@ a {
 }
 .hero-deck {
   white-space: pre-line;
-  width: 60vw;
+  width: 100%;
   max-width: 100%;
   margin: 1rem auto 1.8rem;
   color: rgb(255 255 255 / 0.9);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.05rem, 1vw, 1.25rem);
   line-height: 1.65;
-  text-align: center;
+  text-align: left;
 }
 .button {
   display: inline-flex;
@@ -440,4 +442,14 @@ body {
   *::after {
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Keep the split hero readable on tablets and phones. */
+@media (min-width: 901px) {
+  .hero-art { transform: translateX(8%); }
+  .hero-copy { padding-inline: 0; }
+  .hero-deck { width: 80%; }
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
 }
