@@ -279,6 +279,12 @@ a {
   font: 400 clamp(2.5rem, 6vw, 6rem) / 1.08 var(--display);
   text-wrap: balance;
 }
+.quote-attribution {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: clamp(1rem, 5vw, 2.5rem);
+  line-height: 1.4;
+}
 .category-nav {
   display: flex;
   justify-content: center;
@@ -313,10 +319,15 @@ a {
   text-decoration: none;
   vertical-align: top;
 }
+.story-image {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
 .story-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 .story-copy {
   padding-top: 0.6rem;
