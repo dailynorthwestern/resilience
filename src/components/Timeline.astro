@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import FlourishTimeline from './FlourishTimeline.astro';
+import { timelineEvents } from '../data/timeline.js';
+import '../styles/timeline.css';
+
+// Switch to true to restore the original, unmodified Flourish visualization.
+const useFlourish = false;
+const imageURL = (source) => source.startsWith('/') && !source.startsWith('//')
+  ? `${import.meta.env.BASE_URL}${source.replace(/^\/+/, '')}` : source;
+const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
+  month: 'short', day: '2-digit', timeZone: 'UTC'
+}).format(new Date(`${date}T00:00:00Z`)).replace(',', '');
+---
+
+{useFlourish ? <FlourishTimeline /> : (
+  <section class="custom-timeline" id="timeline" aria-label="Timeline of Operation Midway Blitz">
+    <ol class="timeline-events">
+      {timelineEvents.map((event) => (
+        <li class="timeline-event" id={event.id}>
+          <div class="timeline-photo">
+            {event.image && (typeof event.image === 'string'
+              ? <img src={imageURL(event.image)} alt={event.alt} loading="lazy" decoding="async" />
+              : <Image src={event.image} alt={event.alt} loading="lazy" />)}
+          </div>
+          <time class="timeline-date" datetime={event.date}>
+            <span class="timeline-date-day">{formatDate(event.date)}</span>
+            <span class="timeline-date-year">{event.date.slice(0, 4)}</span>
+          </time>
+          <article class="timeline-event-card" aria-labelledby={`${event.id}-headline`}>
+            <h2 id={`${event.id}-headline`}>{event.headline}</h2>
+            <p>{event.description}</p>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

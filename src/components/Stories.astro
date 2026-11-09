@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import { stories, storyCategories } from '../data/stories.js';
+
+// Imported src/assets images are ImageMetadata objects; URL strings use <img>.
+const publicImageURL = (source) => source.startsWith('/') && !source.startsWith('//')
+  ? `${import.meta.env.BASE_URL}${source.replace(/^\/+/, '')}`
+  : source;
+---
+
+<section class="stories" id="stories" aria-label="Stories">
+  <div class="stories-backdrop" aria-hidden="true">
+    <video class="stories-video" muted loop playsinline preload="none" poster={`${import.meta.env.BASE_URL}assets/resilience-cover.jpg`}></video>
+    <div class="stories-shade"></div>
+  </div>
+  <div class="stories-content">
+    <div class="category-nav" role="group" aria-label="Filter stories by category" hidden>
+      {['All', ...storyCategories].map((category) => (
+        <button type="button" data-category={category} aria-pressed={category === 'All'} aria-controls="story-grid">{category}</button>
+      ))}
+    </div>
+    <p class="visually-hidden" data-filter-status role="status" aria-live="polite"></p>
+    <div class="story-grid" id="story-grid">
+      {stories.map((story) => (
+        <a class="story-card" href={story.headlineURL} data-tags={JSON.stringify(story.tags)}>
+          <div class="story-image">
+            {typeof story.image === 'string' ? (
+              <img src={publicImageURL(story.image)} alt={story.alt} loading="lazy" decoding="async" />
+            ) : (
+              <Image src={story.image} alt={story.alt} width={720} loading="lazy" />
+            )}
+          </div>
+          <div class="story-copy">
+            <h3>{story.headline}</h3>
+            <div class="story-meta">
+              <span class="story-byline">{story.byline}</span>
+              <span class="story-date">{story.date}</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+    <p class="stories-empty" hidden>No stories in this category yet. Please check back soon.</p>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector('#stories');
+  if (section) {
+    const filters = section.querySelector('.category-nav');
+    const buttons = section.querySelectorAll('button[data-category]');
+    const cards = section.querySelectorAll('.story-card');
+    const status = section.querySelector('[data-filter-status]');
+    const empty = section.querySelector('.stories-empty');
+    filters.hidden = false;
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+        let count = 0;
+        buttons.forEach((filter) => filter.setAttribute('aria-pressed', String(filter === button)));
+        cards.forEach((card) => {
+          const tags = JSON.parse(card.getAttribute('data-tags') || '[]');
+          const matches = category === 'All' || tags.includes(category);
+          card.hidden = !matches;
+          if (matches) count++;
+        });
+        empty.hidden = count > 0;
+        status.textContent = `${count} ${count === 1 ? 'story' : 'stories'} shown for ${category}.`;
+      });
+    });
+  }
+</script>
