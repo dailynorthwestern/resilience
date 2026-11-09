@@ -22,7 +22,7 @@ const publicImageURL = (source) => source.startsWith('/') && !source.startsWith(
     <p class="visually-hidden" data-filter-status role="status" aria-live="polite"></p>
     <div class="story-grid" id="story-grid">
       {stories.map((story) => (
-        <a class="story-card" href={story.headlineURL} data-tags={JSON.stringify(story.tags)}>
+        <a class="story-card" href={story.headlineURL} target={/^(https?:)?\/\//i.test(story.headlineURL) ? "_blank" : undefined} rel={/^(https?:)?\/\//i.test(story.headlineURL) ? "noopener noreferrer" : undefined} data-tags={JSON.stringify(story.tags)}>
           <div class="story-image">
             {typeof story.image === 'string' ? (
               <img src={publicImageURL(story.image)} alt={story.alt} loading="lazy" decoding="async" />

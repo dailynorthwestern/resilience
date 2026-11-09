@@ -23,6 +23,17 @@
   padding-bottom: var(--timeline-outro-height);
   list-style: none;
 }
+.timeline-byline {
+  grid-area: 2 / 1;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: .5rem clamp(1rem, 4vw, 4rem) .75rem;
+  background: var(--paper);
+  color: var(--daily-purple);
+  font: 400 .85rem/1.4 Georgia, "Times New Roman", serif;
+  text-align: right;
+}
 .custom-timeline::after {
   content: '';
   grid-area: 1 / 1;
