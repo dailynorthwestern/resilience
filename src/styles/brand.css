@@ -36,7 +36,7 @@
   background: #5b1d54;
   color: #fff;
   border-radius: 999px;
-  font: 700 .9rem/1 Georgia, "Times New Roman", serif;
+  font: 700 .9rem/1 var(--mono);
   text-decoration: none;
 }
 .site-header .header-action:hover { background: #400957; }
@@ -45,7 +45,7 @@
   padding: 1.75rem 0;
   background: #501e4c;
   color: #fff;
-  font: 500 .9rem/1.6 var(--sans);
+  font: 400 .9rem/1.6 var(--sans);
   text-align: center;
 }
 .site-footer .footer-brand { display: inline-block; margin-bottom: .5rem; font-weight: 700; }

@@ -1,7 +1,7 @@
 /* Timeline-only controls: the central date band and alternating editorial copy. */
 .custom-timeline {
   --timeline-band-width: 8rem;
-  --timeline-spacing: clamp(2rem, 5vw, 4rem);
+  --timeline-spacing: .75rem;
   --timeline-card-width: 35rem;
   --timeline-purple: var(--purple);
   --timeline-date-color: var(--butter);
@@ -10,7 +10,7 @@
   font-family: var(--sans);
 }
 .timeline-events {
-  position: relative; isolation: isolate; margin: 0; padding: 3rem 0;
+  position: relative; isolation: isolate; margin: 0; padding: .75rem 0;
   list-style: none;
 }
 .timeline-events::before {
@@ -30,11 +30,11 @@
   position: relative; z-index: 2; grid-column: 2; grid-row: 1; align-self: start;
   display: flex; flex-direction: column; align-items: center;
   padding: .25rem .4rem; text-align: center;
-  color: var(--timeline-date-color); font-family: var(--display);
+  color: var(--timeline-date-color); font-family: var(--mono);
   font-variant-numeric: tabular-nums;
 }
-.timeline-date-day { font-size: 1.15rem; line-height: 1.4; text-transform: uppercase; }
-.timeline-date-year { color: white; font-size: 3.4rem; font-weight: 600; line-height: 1.1; }
+.timeline-date-day { font-size: 1.8rem; font-weight: 700; line-height: 1.15; text-transform: uppercase; white-space: nowrap; }
+.timeline-date-year { color: white; font-size: 1rem; font-weight: 700; line-height: 1.3; }
 .timeline-event-card {
   position: relative; z-index: 2; grid-column: 1; grid-row: 1;
   width: min(100%, var(--timeline-card-width)); justify-self: end;
@@ -45,20 +45,19 @@
   grid-column: 3; justify-self: start; padding: .25rem 0 0 clamp(1.25rem, 3vw, 3rem);
 }
 .timeline-event-card h2 {
-  margin: 0 0 .75rem; color: var(--purple);
-  font: 600 clamp(1.5rem, 2.3vw, 2.4rem)/1.1 var(--display);
+  margin: 0 0 .4rem; color: var(--purple);
+  font: 700 clamp(1.5rem, 2.3vw, 2.4rem)/1.1 var(--mono);
   text-transform: uppercase; text-wrap: balance;
 }
 .timeline-event:nth-child(odd) .timeline-event-card h2 { text-align: right; }
 .timeline-event-card p { margin: 0; font-size: 1rem; line-height: 1.6; }
 @media (max-width: 700px) {
-  .custom-timeline { --timeline-band-width: 5rem; --timeline-spacing: 2.5rem; }
-  .timeline-events { padding-block: 2rem; }
+  .custom-timeline { --timeline-band-width: 5rem; }
   .timeline-events::before { left: 0; transform: none; }
   .timeline-event { grid-template-columns: var(--timeline-band-width) minmax(0, 1fr); padding-inline: 0 1rem; }
   .timeline-date { grid-column: 1; }
-  .timeline-date-day { font-size: .9rem; }
-  .timeline-date-year { font-size: 2.2rem; }
+  .timeline-date-day { font-size: 1.1rem; }
+  .timeline-date-year { font-size: .8rem; }
   .timeline-event .timeline-event-card, .timeline-event:nth-child(even) .timeline-event-card {
     grid-column: 2; justify-self: start; padding: .25rem 0 0 1rem;
   }
