@@ -1,13 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import FlourishTimeline from './FlourishTimeline.astro';
 import { timelineEvents } from '../data/timeline.js';
 import '../styles/timeline.css';
 
 // Switch to true to restore the original, unmodified Flourish visualization.
 const useFlourish = false;
-const imageURL = (source) => source.startsWith('/') && !source.startsWith('//')
-  ? `${import.meta.env.BASE_URL}${source.replace(/^\/+/, '')}` : source;
 const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
   month: 'short', day: '2-digit', timeZone: 'UTC'
 }).format(new Date(`${date}T00:00:00Z`)).replace(',', '');
@@ -15,14 +12,14 @@ const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
 
 {useFlourish ? <FlourishTimeline /> : (
   <section class="custom-timeline" id="timeline" aria-label="Timeline of Operation Midway Blitz">
+    <div class="timeline-stage" aria-hidden="true">
+      <video class="timeline-background-video" data-src={`${import.meta.env.BASE_URL}assets/timeline_bg.mp4`} autoplay loop muted playsinline preload="none" tabindex="-1"></video>
+      <div class="timeline-video-overlay"></div>
+      <div class="timeline-stem"></div>
+    </div>
     <ol class="timeline-events">
       {timelineEvents.map((event) => (
         <li class="timeline-event" id={event.id}>
-          <div class="timeline-photo">
-            {event.image && (typeof event.image === 'string'
-              ? <img src={imageURL(event.image)} alt={event.alt} loading="lazy" decoding="async" />
-              : <Image src={event.image} alt={event.alt} loading="lazy" />)}
-          </div>
           <time class="timeline-date" datetime={event.date}>
             <span class="timeline-date-day">{formatDate(event.date)}</span>
             <span class="timeline-date-year">{event.date.slice(0, 4)}</span>
@@ -36,3 +33,62 @@ const formatDate = (date) => new Intl.DateTimeFormat('en-US', {
     </ol>
   </section>
 )}
+
+<script>
+  const timeline = document.querySelector<HTMLElement>('.custom-timeline');
+  if (timeline) {
+    const header = document.querySelector<HTMLElement>('.site-header');
+    const video = timeline.querySelector<HTMLVideoElement>('.timeline-background-video');
+    const parts = [...timeline.querySelectorAll<HTMLElement>('.timeline-date, .timeline-event-card h2, .timeline-event-card p')];
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let headerHeight = 0;
+    let frame = 0;
+    let visible = false;
+    // Fade only near the viewport edges; the reading area stays fully opaque.
+    const fadeDistance = 72;
+    const minimumOpacity = .55;
+    const update = () => {
+      frame = 0;
+      if (motion.matches || !visible) return;
+      const bottom = window.innerHeight;
+      const values = parts.map((part) => {
+        const rect = part.getBoundingClientRect();
+        const distance = Math.min(rect.bottom - headerHeight, bottom - rect.top);
+        const progress = Math.max(0, Math.min(1, distance / fadeDistance));
+        const smooth = progress * progress * (3 - 2 * progress);
+        return minimumOpacity + (1 - minimumOpacity) * smooth;
+      });
+      parts.forEach((part, index) => part.style.setProperty('--timeline-opacity', String(values[index])));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const measureHeader = () => {
+      headerHeight = header?.getBoundingClientRect().height || 0;
+      timeline.style.setProperty('--timeline-header-offset', `${headerHeight}px`);
+      schedule();
+    };
+    if (header) new ResizeObserver(measureHeader).observe(header);
+    const syncVideo = () => {
+      if (!video) return;
+      if (motion.matches || !visible) {
+        video.pause();
+      } else {
+        if (!video.getAttribute('src')) video.src = video.dataset.src || '';
+        video.muted = true;
+        video.play().catch(() => { /* The fallback remains if autoplay is unavailable. */ });
+      }
+    };
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncVideo();
+      schedule();
+    }).observe(timeline);
+    motion.addEventListener('change', () => {
+      parts.forEach((part) => part.style.removeProperty('--timeline-opacity'));
+      syncVideo();
+      schedule();
+    });
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', measureHeader, { passive: true });
+    measureHeader();
+  }
+</script>

@@ -221,6 +221,10 @@ a {
   object-fit: cover;
   opacity: 0.52;
 }
+.stories-backdrop {
+  /* Reveal the artwork gradually after the quote's gradient reaches purple. */
+  mask-image: linear-gradient(to bottom, transparent, black 6rem);
+}
 .stories-shade {
   z-index: -1;
   background: linear-gradient(90deg, rgb(25 5 35 / 0.92), rgb(25 5 35 / 0.6)),
@@ -235,9 +239,32 @@ a {
   padding-block: clamp(3rem, 6vw, 6rem);
 }
 .quote-section {
+  position: relative;
   background: var(--paper);
   color: var(--purple);
   text-align: center;
+}
+.quote-section.section-pad {
+  padding-top: clamp(6rem, 12vw, 11rem);
+  padding-bottom: clamp(13rem, 24vw, 22rem);
+}
+.quote-section::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(9rem, 17vw, 16rem);
+  pointer-events: none;
+  /* Ease gently out of cream, through muted lavender, into deep purple. */
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    color-mix(in oklab, var(--paper) 95%, var(--purple-deep)) 15%,
+    color-mix(in oklab, var(--paper) 78%, var(--purple-deep)) 35%,
+    color-mix(in oklab, var(--paper) 48%, var(--purple-deep)) 55%,
+    color-mix(in oklab, var(--paper) 18%, var(--purple-deep)) 75%,
+    color-mix(in oklab, var(--paper) 4%, var(--purple-deep)) 90%,
+    var(--purple-deep) 100%
+  );
 }
 .quote-section blockquote {
   max-width: 20ch;

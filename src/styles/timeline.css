@@ -1,6 +1,11 @@
 /* Timeline-only controls: the central date band and alternating editorial copy. */
 .custom-timeline {
+  --timeline-header-offset: var(--header-height, 0px);
+  --timeline-outro-height: clamp(7rem, 12vw, 12rem);
   --timeline-band-width: 8rem;
+  display: grid;
+  position: relative;
+  isolation: isolate;
   --timeline-spacing: .75rem;
   --timeline-card-width: 35rem;
   --timeline-purple: var(--purple);
@@ -10,22 +15,52 @@
   font-family: var(--sans);
 }
 .timeline-events {
-  position: relative; isolation: isolate; margin: 0; padding: .75rem 0;
+  position: relative; z-index: 1; grid-area: 1 / 1; margin: 0; padding: .75rem 0;
+  padding-bottom: var(--timeline-outro-height);
   list-style: none;
 }
-.timeline-events::before {
-  content: ''; position: absolute; z-index: 1; inset-block: 0; left: 50%;
+.custom-timeline::after {
+  content: '';
+  grid-area: 1 / 1;
+  align-self: end;
+  position: relative;
+  z-index: 0;
+  height: var(--timeline-outro-height);
+  pointer-events: none;
+  /* Fade the video and stem only after the final event, into the quote's cream. */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in oklab, var(--paper) 5%, transparent) 15%,
+    color-mix(in oklab, var(--paper) 22%, transparent) 35%,
+    color-mix(in oklab, var(--paper) 52%, transparent) 55%,
+    color-mix(in oklab, var(--paper) 82%, transparent) 75%,
+    color-mix(in oklab, var(--paper) 96%, transparent) 90%,
+    var(--paper) 100%
+  );
+}
+.timeline-stage {
+  grid-area: 1 / 1; position: sticky; top: var(--timeline-header-offset);
+  align-self: start; height: calc(100svh - var(--timeline-header-offset));
+  height: calc(100dvh - var(--timeline-header-offset));
+  overflow: hidden; pointer-events: none; background: var(--paper);
+}
+.timeline-background-video, .timeline-video-overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
+.timeline-background-video { object-fit: cover; }
+/* A paper-colored wash preserves contrast for the existing dark text and purple headlines. */
+.timeline-video-overlay { background: rgb(245 240 232 / .60); }
+.timeline-stem {
+  position: absolute; inset-block: 0; left: 50%;
   width: var(--timeline-band-width); transform: translateX(-50%);
   background: var(--timeline-purple);
 }
+.timeline-date, .timeline-event-card h2, .timeline-event-card p { opacity: var(--timeline-opacity, 1); }
 .timeline-event {
   position: relative; display: grid;
   grid-template-columns: minmax(0, 1fr) var(--timeline-band-width) minmax(0, 1fr);
   padding: 0 clamp(1rem, 4vw, 4rem) var(--timeline-spacing); min-width: 0;
 }
 .timeline-event:last-child { padding-bottom: 0; }
-.timeline-photo { position: absolute; z-index: -1; inset: 0; opacity: .12; }
-.timeline-photo img { width: 100%; height: 100%; object-fit: cover; }
 .timeline-date {
   position: relative; z-index: 2; grid-column: 2; grid-row: 1; align-self: start;
   display: flex; flex-direction: column; align-items: center;
@@ -53,7 +88,7 @@
 .timeline-event-card p { margin: 0; font-size: 1rem; line-height: 1.6; }
 @media (max-width: 700px) {
   .custom-timeline { --timeline-band-width: 5rem; }
-  .timeline-events::before { left: 0; transform: none; }
+  .timeline-stem { left: 0; transform: none; }
   .timeline-event { grid-template-columns: var(--timeline-band-width) minmax(0, 1fr); padding-inline: 0 1rem; }
   .timeline-date { grid-column: 1; }
   .timeline-date-day { font-size: 1.1rem; }
@@ -63,4 +98,9 @@
   }
   .timeline-event:nth-child(odd) .timeline-event-card h2 { text-align: left; }
   .timeline-event-card p { font-size: .95rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-background-video { display: none; }
+  .timeline-date, .timeline-event-card h2, .timeline-event-card p { opacity: 1; }
 }
