@@ -18,6 +18,17 @@ export const stories = [
   },
   {
     "image": "/assets/resilience-cover.jpg",
+    "headline": "‘This community will not forget’: Evanston leaders, community members mark one year since Halloween ICE confrontation",
+    "byline": "eunice lee",
+    "date": "November 3, 2026",
+    "headlineURL": "https://dailynorthwestern.com/2026/11/02/city/this-community-will-not-forget-evanston-leaders-community-members-mark-one-year-since-halloween-ice-confrontation/",
+    "alt": "Resilience special issue artwork: a monarch butterfly and orange flowers on purple.",
+    "tags": [
+      "Evanston"
+    ]
+  },
+  {
+    "image": "/assets/resilience-cover.jpg",
     "headline": "Local organizations continue support for immigrants 1 year after federal crackdown",
     "byline": "Isabella Mason, Sophie Ponce de Leon",
     "date": "November 4, 2026",
