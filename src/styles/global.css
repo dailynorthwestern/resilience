@@ -232,8 +232,11 @@ a {
 }
 .stories-shade {
   z-index: -1;
-  background: linear-gradient(90deg, rgb(25 5 35 / 0.92), rgb(25 5 35 / 0.6)),
-    linear-gradient(0deg, rgb(25 5 35 / 0.45), transparent);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--purple) 92%, transparent),
+    color-mix(in srgb, var(--purple) 60%, transparent)
+  ), linear-gradient(0deg, color-mix(in srgb, var(--purple) 45%, transparent), transparent);
 }
 /* Stories grid controls: width, gaps, image ratio, and caption spacing. */
 .stories-content {

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Timeline from '../components/Timeline.astro';
-import Quote from '../components/Quote.astro';
+// Quote.astro and its styles are preserved; import and render it here to restore.
 import Stories from '../components/Stories.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -12,9 +12,8 @@ import Footer from '../components/Footer.astro';
   <Header />
   <main id="main">
     <Hero />
-    <Timeline />
-    <Quote />
     <Stories />
+    <Timeline />
   </main>
   <Footer />
 </Layout>
